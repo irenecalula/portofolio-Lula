@@ -224,6 +224,12 @@ h2 .sc{font:400 1.35em/1 var(--f-script);text-transform:none;color:var(--pink-de
 }
 .pic video{display:block;width:100%;height:100%;object-fit:cover;background:#1b1012}
 .vfail{padding:40px 18px;text-align:center;font:700 .8rem/1.5 var(--f-mono);color:#7a6466;background:#efe3d4}
+html,body{overflow-x:clip}
+.rate .eyebrow{background:var(--pink-soft);padding:3px 8px;border-radius:6px}
+.navin{min-width:0}
+.brand{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.links{flex:none}
+@media (max-width:700px){.brand{font-size:1.4rem}}
 </style>
 
 <header class="nav">
@@ -277,6 +283,7 @@ h2 .sc{font:400 1.35em/1 var(--f-script);text-transform:none;color:var(--pink-de
    ===================================================================== */
 const SITE = {
   name: "Irene Calula Tiara Palobo",
+  navName: "Irene Calula",   /* nama pendek di menu atas, biar muat di HP */
   heroName: "Irene Calula ୨ৎ",
   eyebrow: "Informatika sem 5 · Portofolio 2026",
   roleTop: "Data &",
@@ -494,7 +501,7 @@ async function copyText(text) {
 /* ---------- render ---------- */
 function renderHero() {
   const s = SITE;
-  $("#navName").textContent = s.name;
+  $("#navName").textContent = s.navName || s.name;
   $("#hero").innerHTML =
     '<div><div class="eyebrow">' + esc(s.eyebrow || "Portofolio") + "</div>" +
     "<h1>" + esc(s.roleTop) + '<em><span class="hl">' + esc(s.roleAccent) + '</span></em><span class="myname">' + esc(s.heroName || s.name) + "</span></h1>" +
