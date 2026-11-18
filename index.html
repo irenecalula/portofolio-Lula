@@ -162,9 +162,46 @@ h2 .sc{font:400 1.35em/1 var(--f-script);text-transform:none;color:var(--pink-de
 
 /* web project */
 .webp{display:grid;grid-template-columns:auto 1fr;gap:44px;align-items:center;max-width:820px;margin-inline:auto}
-.phone{position:relative;width:250px;aspect-ratio:9/18;border:9px solid #2c1b1d;border-radius:36px;background:#fff;overflow:hidden;box-shadow:0 22px 40px -18px rgba(44,27,29,.6);animation:bob 6s ease-in-out infinite}
-.phone::before{content:"";position:absolute;top:0;left:50%;width:70px;height:16px;transform:translateX(-50%);background:#2c1b1d;border-radius:0 0 12px 12px;z-index:2}
-.phone iframe{display:block;width:100%;height:100%;border:0;background:#fff}
+/* Laptop mockup */
+.laptop {
+  width: 100%;
+  max-width: 570px;
+  position: relative;
+  padding: 10px 10px 0;
+  border: 5px solid #2c1b1d;
+  border-bottom: 0;
+  border-radius: 13px 13px 4px 4px;
+  background: #2c1b1d;
+  box-shadow: 0 22px 40px -18px rgba(44,27,29,.6);
+  animation: bob 6s ease-in-out infinite;
+}
+
+.laptop img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 3px 3px 0 0;
+}
+
+.laptop::after {
+  content: "";
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  bottom: -12px;
+  height: 12px;
+  background: linear-gradient(#d8c8c5, #8e7d7c);
+  border-radius: 2px 2px 12px 12px;
+  box-shadow: 0 8px 12px rgba(0,0,0,.15);
+}
+
+@media (max-width:760px) {
+  .laptop {
+    max-width: 100%;
+  }
+}
 @keyframes bob{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-8px) rotate(1.5deg)}}
 .webinfo{transform:rotate(.6deg)}
 .webinfo p{margin:0 0 12px;font-size:.92rem;color:#5b4749}
