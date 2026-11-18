@@ -222,6 +222,8 @@ h2 .sc{font:400 1.35em/1 var(--f-script);text-transform:none;color:var(--pink-de
   .track,.dot{animation:none}
   .pol,.btn,.toast{transition:none}
 }
+.pic video{display:block;width:100%;height:100%;object-fit:cover;background:#1b1012}
+.vfail{padding:40px 18px;text-align:center;font:700 .8rem/1.5 var(--f-mono);color:#7a6466;background:#efe3d4}
 </style>
 
 <header class="nav">
@@ -283,9 +285,9 @@ const SITE = {
   status: { open: true, text: "Open for freelance & part-time" },
 
   hero: [
-  { photo: "lula-main.jpg", caption: "hello, it's Lula ♡", ratio: "3/4" },
-  { photo: "lula-candid.jpg", caption: "behind the scenes", ratio: "4/5" },
-  { photo: "lula-mood.jpg", caption: "little moments ♡", ratio: "3/4" }
+  { photo: "foto/lula-main.jpg", caption: "hello, it's Lula ♡", ratio: "3/4" },
+  { photo: "foto/lula-candid.jpg", caption: "behind the scenes", ratio: "4/5" },
+  { photo: "foto/lula-mood.jpg", caption: "little moments ♡", ratio: "3/4" }
   ],
 
   marquee: ["Desain grafis", "Video editing", "Public Relation", "Data & BI", "Power BI", "SQL & Python", "Excel & web basic", "Model photoshoot", "Beauty & fashion"],
@@ -311,17 +313,17 @@ const SITE = {
 
   
 works: [
-    { title: "BI dashboard",        cat: "Data",   photo: "bi-dashboard.jpg",        ratio: "16/9", note: "Dashboard Power BI buat memantau data dan bantu ambil keputusan." },
-    { title: "Data warehouse mini", cat: "Data",   photo: "data-warehouse.jpg",       ratio: "16/9", note: "Skema data warehouse di PostgreSQL, ditampilkan lewat diagram." },
-    { title: "Poster kegiatan",     cat: "Desain", photo: "poster-kegiatan.jpg",      ratio: "3/4",  note: "Poster acara organisasi yang dibikin di Canva, rapi dan eye-catching." },
-    { title: "Slide presentasi",    cat: "Desain", photo: "slide-presentasi.jpg",     ratio: "16/9", note: "PPT yang enak dilihat dan gampang dipahami, anti ngantuk." },
-    { title: "Konten Reels",        cat: "Video",  video: "konten-reels.mp4",        ratio: "9/16", note: "Reels kreatif buat promosi program kerja." },
-    { title: "Edit video pendek",   cat: "Video",  video: "edit-video.mp4",          ratio: "9/16", note: "Video pendek dengan cut cepat dan teks yang jelas." },
-    { title: "Photoshoot style 1",  cat: "Model",  photo: "photoshoot-1.jpg",         ratio: "3/4",  note: "Sesi foto bertema fashion, full of mood." },
-    { title: "Photoshoot style 2",  cat: "Model",  photo: "photoshoot-2.jpg",         ratio: "4/5",  note: "Konsep warna pastel yang soft banget." },
-    { title: "Look makeup",         cat: "Beauty", photo: "look-makeup.jpg",          ratio: "3/4",  note: "Eksplor makeup natural buat konten beauty." },
-    { title: "Outfit of the day",   cat: "Model",  photo: "ootd.jpg",                 ratio: "3/4",  note: "Mix and match outfit buat konten fashion dan affiliate." },
-    { title: "Feed sosmed",         cat: "Desain", photo: "feed-sosmed.jpg",          ratio: "3/4",  note: "Rangkaian feed Instagram yang konsisten dan cohesive." }
+    { title: "BI dashboard",        cat: "Data",   photo: "foto/bi-dashboard.jpg",        ratio: "16/9", note: "Dashboard Power BI buat memantau data dan bantu ambil keputusan." },
+    { title: "Data warehouse mini", cat: "Data",   photo: "foto/data-warehouse.jpg",       ratio: "16/9", note: "Skema data warehouse di PostgreSQL, ditampilkan lewat diagram." },
+    { title: "Poster kegiatan",     cat: "Desain", photo: "foto/poster-kegiatan.jpg",      ratio: "3/4",  note: "Poster acara organisasi yang dibikin di Canva, rapi dan eye-catching." },
+    { title: "Slide presentasi",    cat: "Desain", photo: "foto/slide-presentasi.jpg",     ratio: "16/9", note: "PPT yang enak dilihat dan gampang dipahami, anti ngantuk." },
+    { title: "Konten Reels",        cat: "Video",  video: "video/konten-reels.mp4",        ratio: "9/16", note: "Reels kreatif buat promosi program kerja." },
+    { title: "Edit video pendek",   cat: "Video",  video: "video/edit-video.mp4",          ratio: "9/16", note: "Video pendek dengan cut cepat dan teks yang jelas." },
+    { title: "Photoshoot style 1",  cat: "Model",  photo: "foto/photoshoot-1.jpg",         ratio: "3/4",  note: "Sesi foto bertema fashion, full of mood." },
+    { title: "Photoshoot style 2",  cat: "Model",  photo: "foto/photoshoot-2.jpg",         ratio: "4/5",  note: "Konsep warna pastel yang soft banget." },
+    { title: "Look makeup",         cat: "Beauty", photo: "foto/look-makeup.jpg",          ratio: "3/4",  note: "Eksplor makeup natural buat konten beauty." },
+    { title: "Outfit of the day",   cat: "Model",  photo: "foto/ootd.jpg",                 ratio: "3/4",  note: "Mix and match outfit buat konten fashion dan affiliate." },
+    { title: "Feed sosmed",         cat: "Desain", photo: "foto/feed-sosmed.jpg",          ratio: "3/4",  note: "Rangkaian feed Instagram yang konsisten dan cohesive." }
 ],
 
 
@@ -419,17 +421,43 @@ const TONES = [
   "linear-gradient(160deg,#e9c5cf,#c98a9d)", "linear-gradient(160deg,#f8e8dc,#e9b9c2)"
 ];
 
+/* ---------- loader file: tahan folder berantakan ----------
+   Tiap foto/video dicoba dari beberapa kemungkinan lokasi:
+   1) path persis seperti di SITE (misal "foto/a.jpg"),
+   2) nama file saja (kalau semua file ada sejajar dengan index.html),
+   3) variasi ekstensi (jpg / jpeg / png / webp, huruf besar kecil). */
+const IMG_EXT = ["jpg", "jpeg", "png", "webp", "JPG", "JPEG", "PNG"];
+const VID_EXT = ["mp4", "MP4"];
+const fileName = p => String(p || "").split("/").pop();
+function variants(p, exts) {
+  const m = p.match(/^(.*)\.([^./]+)$/);
+  const stem = m ? m[1] : p, ext = m ? m[2] : "";
+  return [...new Set([ext, ...exts].filter(Boolean).map(e => stem + "." + e))];
+}
+function candidates(src, exts) {
+  if (!src) return [];
+  return [...new Set([...variants(src, exts), ...variants(fileName(src), exts)])];
+}
+function phHtml(i, hint) {
+  return '<div class="ph" style="background:' + TONES[i % TONES.length] + '">' + SIL + "<span>" + esc(hint) + "</span></div>";
+}
+
 function pic(src, i, alt, ratio) {
   const d = document.createElement("div");
   d.className = "pic";
   if (ratio) d.style.aspectRatio = ratio;
-  const fallback = () => { d.innerHTML = '<div class="ph" style="background:' + TONES[i % TONES.length] + '">' + SIL + "<span>foto kamu</span></div>"; };
+  const fallback = () => { d.innerHTML = phHtml(i, src ? "cek file: " + fileName(src) : "foto kamu"); };
   if (src) {
     const im = new Image();
     im.alt = alt || "";
     im.loading = "lazy";
-    im.onerror = () => { im.remove(); fallback(); };
-    im.src = src;
+    const list = candidates(src, IMG_EXT);
+    let n = 0;
+    im.onerror = () => {
+      if (n < list.length) im.src = list[n++];
+      else { im.remove(); fallback(); }
+    };
+    im.onerror();
     d.appendChild(im);
   } else fallback();
   return d;
@@ -529,27 +557,27 @@ function renderWorks() {
       p.style.setProperty("--r", ((k % 5) - 2) * 0.9 + "deg");
 
       if (w.video) {
-
         const picArea = p.querySelector(".pic");
-
         picArea.innerHTML = "";
 
         const video = document.createElement("video");
-        video.src = w.video;
         video.muted = true;
         video.playsInline = true;
+        video.setAttribute("playsinline", "");
         video.preload = "metadata";
 
-        video.style.width = "100%";
-        video.style.height = "100%";
-        video.style.objectFit = "cover";
-
+        const vlist = candidates(w.video, VID_EXT);
+        let vn = 0;
+        video.onerror = () => {
+          if (vn < vlist.length) video.src = vlist[vn++] + "#t=0.1";
+          else { video.remove(); picArea.insertAdjacentHTML("afterbegin", phHtml(SITE.works.indexOf(w), "cek file: " + fileName(w.video))); }
+        };
+        video.onerror();
         picArea.append(video);
 
         const mark = document.createElement("span");
         mark.className = "video-mark";
         mark.textContent = "▶ VIDEO";
-
         picArea.append(mark);
       }
 
@@ -615,37 +643,62 @@ const lb = $("#lb");
 function paintLb() {
   const w = list[cur];
   const box = $("#lbPic");
-
   box.innerHTML = "";
 
   if (w.video) {
     const player = document.createElement("video");
-
-    player.src = w.video;
+    const vlist = candidates(w.video, VID_EXT);
+    let vn = 0;
     player.controls = true;
     player.playsInline = true;
-    player.preload = "metadata";
-    player.style.width = "100%";
-    player.style.maxHeight = "62vh";
-    player.style.objectFit = "contain";
-    player.style.display = "block";
-
+    player.setAttribute("playsinline", "");
+    player.preload = "auto";
+    player.style.cssText = "display:block;width:100%;max-height:62vh;object-fit:contain;background:#1b1012";
+    player.onerror = () => {
+      if (vn < vlist.length) player.src = vlist[vn++];
+      else box.innerHTML = '<div class="vfail">Video belum bisa diputar. Cek nama file ("' + esc(fileName(w.video)) + '") dan pastikan formatnya MP4 (H.264).</div>';
+    };
+    player.onerror();
     box.append(player);
+    const pr = player.play();
+    if (pr && pr.catch) pr.catch(() => {});
   } else {
-    box.append(pic(
-      w.photo,
-      SITE.works.indexOf(w),
-      w.title,
-      w.ratio || "3/4"
-    ));
+    box.append(pic(w.photo, SITE.works.indexOf(w), w.title, w.ratio || "3/4"));
   }
 
   $("#lbTitle").textContent = w.title;
-  $("#lbMeta").textContent =
-    w.cat + " · " + (cur + 1) + "/" + list.length;
-
+  $("#lbMeta").textContent = w.cat + " · " + (cur + 1) + "/" + list.length;
   $("#lbNote").textContent = w.note || "";
 }
+function stopLbVideo() { const v = $("#lbPic video"); if (v) v.pause(); }
+function openLb(k) {
+  cur = k;
+  paintLb();
+  lb.hidden = false;
+  document.body.style.overflow = "hidden";
+  $("#lbClose").focus();
+}
+function closeLb() {
+  stopLbVideo();
+  $("#lbPic").innerHTML = "";
+  lb.hidden = true;
+  document.body.style.overflow = "";
+}
+function step(d) {
+  stopLbVideo();
+  cur = (cur + d + list.length) % list.length;
+  paintLb();
+}
+$("#lbClose").onclick = closeLb;
+$("#lbPrev").onclick = () => step(-1);
+$("#lbNext").onclick = () => step(1);
+lb.addEventListener("click", e => { if (e.target === lb) closeLb(); });
+document.addEventListener("keydown", e => {
+  if (lb.hidden) return;
+  if (e.key === "Escape") closeLb();
+  if (e.key === "ArrowLeft") step(-1);
+  if (e.key === "ArrowRight") step(1);
+});
 
 
 /* ---------- tema ---------- */
