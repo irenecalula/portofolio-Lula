@@ -656,13 +656,28 @@ function renderWorks() {
 
 function renderWeb() {
   const w = SITE.web;
+
   $("#proyekweb").innerHTML =
     '<div class="shead"><div class="eyebrow">Dibikin &amp; di-deploy sendiri</div><h2>Web <span class="sc">buatanku</span></h2></div>' +
-    '<div class="webp"><div class="phone"><iframe src="' + esc(w.url) + '" loading="lazy" title="Preview ' + esc(w.title) + '"></iframe></div>' +
-    '<article class="note webinfo"><span class="tag">' + esc(w.label) + '</span><p class="brandname">' + esc(w.title) + "</p><p>" + esc(w.text) + "</p>" +
-    '<div class="tags">' + w.tags.map(t => "<span>" + esc(t) + "</span>").join("") + "</div>" +
-    '<a class="btn" href="' + esc(w.url) + '" target="_blank" rel="noopener">Buka website ↗</a>' +
-    "<small>Preview kosong? Klik tombol di atas buat buka langsung.</small></article></div>";
+
+    '<div class="webp">' +
+
+    '<a class="laptop" href="' + esc(w.url) + '" target="_blank" rel="noopener" aria-label="Buka website ' + esc(w.title) + '">' +
+    '<img src="foto/idealphone-preview.jpg" alt="Preview website iDealPhone dari tampilan desktop">' +
+    '</a>' +
+
+    '<article class="note webinfo">' +
+    '<span class="tag">' + esc(w.label) + '</span>' +
+    '<p class="brandname">' + esc(w.title) + '</p>' +
+    '<p>' + esc(w.text) + '</p>' +
+    '<div class="tags">' +
+    w.tags.map(t => "<span>" + esc(t) + "</span>").join("") +
+    '</div>' +
+    '<a class="btn" href="' + esc(w.url) + '" target="_blank" rel="noopener">Visit Website ↗</a>' +
+    '<small>Website project · Desktop preview</small>' +
+    '</article>' +
+
+    '</div>';
 }
 
 function renderCollabs() {
