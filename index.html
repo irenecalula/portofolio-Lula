@@ -161,11 +161,13 @@ h2 .sc{font:400 1.35em/1 var(--f-script);text-transform:none;color:var(--pink-de
 @media (max-width:860px){.masonry{columns:2;column-gap:16px}.masonry .pol{margin-bottom:16px}}
 
 /* web project */
-.webp{display:grid;grid-template-columns:auto 1fr;gap:44px;align-items:center;max-width:820px;margin-inline:auto}
+.webp{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:56px;align-items:center}
 /* Laptop mockup */
 .laptop {
+  display: block;
   width: 100%;
-  max-width: 570px;
+  max-width: 640px;
+  justify-self: center;
   position: relative;
   padding: 10px 10px 0;
   border: 5px solid #2c1b1d;
@@ -188,8 +190,8 @@ h2 .sc{font:400 1.35em/1 var(--f-script);text-transform:none;color:var(--pink-de
 .laptop::after {
   content: "";
   position: absolute;
-  left: -8%;
-  right: -8%;
+  left: -4%;
+  right: -4%;
   bottom: -12px;
   height: 12px;
   background: linear-gradient(#d8c8c5, #8e7d7c);
@@ -197,20 +199,17 @@ h2 .sc{font:400 1.35em/1 var(--f-script);text-transform:none;color:var(--pink-de
   box-shadow: 0 8px 12px rgba(0,0,0,.15);
 }
 
-@media (max-width:760px) {
-  .laptop {
-    max-width: 100%;
-  }
-}
+
 @keyframes bob{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-8px) rotate(1.5deg)}}
-.webinfo{transform:rotate(.6deg)}
-.webinfo p{margin:0 0 12px;font-size:.92rem;color:#5b4749}
+.webinfo{transform:rotate(.6deg);min-width:0;width:100%;max-width:440px;justify-self:center;padding:26px 26px 22px}
+.webinfo p{margin:0 0 12px;font-size:.95rem;line-height:1.6;color:#5b4749}
 .webinfo .brandname{font-size:2rem;color:var(--pink-deep)}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 16px}
 .tags span{padding:4px 11px;border-radius:999px;background:var(--butter);color:#2c1b1d;font:700 .64rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase}
-.webinfo .btn{background:#2c1b1d;border-color:#2c1b1d;color:#fbf5ea}
+.webinfo .btn{background:#2c1b1d;border-color:#2c1b1d;color:#fbf5ea;white-space:nowrap}
+.laptop .ph{position:static;aspect-ratio:16/10;border-radius:3px 3px 0 0}
 .webinfo small{display:block;margin-top:12px;font:400 .7rem var(--f-mono);color:#7a6466}
-@media (max-width:760px){.webp{grid-template-columns:1fr;gap:34px;justify-items:center}.webinfo{width:100%}}
+@media (max-width:860px){.webp{grid-template-columns:1fr;gap:40px;justify-items:center}.laptop{max-width:560px}.webinfo{max-width:560px}}
 
 /* panels */
 .panel{position:relative;background:var(--panel);color:var(--panel-fg);padding-block:92px 72px;margin-top:84px}
@@ -420,6 +419,7 @@ const SITE = {
   web: {
     title: "IdealPhone",
     url: "https://idealphone.nfy.fyi/",
+    photo: "foto/idealphone-preview.jpg",   /* screenshot tampilan website */
     label: "Proyek web · deploy sendiri",
     text: "Website e-commerce katalog iPhone yang dikembangkan sebagai proyek tugas kewirausahaan melalui kerja sama dengan mitra. Website ini menyediakan katalog jual beli iPhone, informasi spesifikasi dan kondisi unit, harga, serta fitur admin untuk mengelola data produk dan katalog.",
     tags: ["Website Kerjasama dengan Mitra UMKM", "Deploy sendiri"]
@@ -663,7 +663,7 @@ function renderWeb() {
     '<div class="webp">' +
 
     '<a class="laptop" href="' + esc(w.url) + '" target="_blank" rel="noopener" aria-label="Buka website ' + esc(w.title) + '">' +
-    '<img src="foto/idealphone-preview.jpg" alt="Preview website iDealPhone dari tampilan desktop">' +
+    '<img alt="Preview website ' + esc(w.title) + ' dari tampilan desktop">' +
     '</a>' +
 
     '<article class="note webinfo">' +
@@ -678,6 +678,15 @@ function renderWeb() {
     '</article>' +
 
     '</div>';
+
+  const im = $("#proyekweb .laptop img");
+  const list = candidates(w.photo || "foto/idealphone-preview.jpg", IMG_EXT);
+  let n = 0;
+  im.onerror = () => {
+    if (n < list.length) im.src = list[n++];
+    else { im.outerHTML = phHtml(0, "cek file: " + fileName(w.photo || "")); }
+  };
+  im.onerror();
 }
 
 function renderCollabs() {
